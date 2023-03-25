@@ -15,21 +15,6 @@ comands_list = {
 			`)
 	},
 
-	'search -d': ()=>{
-		outputPrint('Search with DuckDuckGo...');
-		window.open('https://www.duckduckgo.com')
-	},
-
-	'search -g': ()=>{
-		outputPrint('Search with Google...');
-		window.open('https://www.google.com')
-	},
-
-	'search -b': ()=>{
-		outputPrint('Search with Microsoft Bing...');
-		window.open('https://www.bing.com');
-	},
-
 	'clear': ()=>{
 		outputClear();
 	},
@@ -63,6 +48,48 @@ comand = '';
 
 
 //Input and Output 
+function checkComand(comand){
+	if (comands_list[comand]) {
+		comands_list[comand]();
+	}
+	else if (comand.slice(0,2)=='go') {
+		window.open(`https://${comand.slice(3)}`);
+	}
+	else if (comand.slice(0,6)=='search') {
+		if (comand.slice(comand.length-2)=='-d') {
+			outputPrint(`Searching '${comand.slice(7,comand.length-3)}' with DuckDuckGO...`);
+			window.open(`https://duckduckgo.com/?q=${comand.slice(7,comand.length-3)}`)
+		}
+		else if (comand.slice(comand.length-2)=='-g') {
+			outputPrint(`Searching '${comand.slice(7,comand.length-3)}' with Google...`);
+			window.open(`https://www.google.com/search?q=${comand.slice(7,comand.length-3)}`)
+		}
+		else if (comand.slice(comand.length-2)=='-b') {
+			outputPrint(`Searching '${comand.slice(7,comand.length-3)}' with Bing...`);
+			window.open(`https://www.bing.com/search?q=${comand.slice(7,comand.length-3)}`)
+		}
+	}
+	else if (comand.slice(0,2)=='sr') {
+		if (comand.slice(comand.length-2)=='-d') {
+			outputPrint(`Searching '${comand.slice(3,comand.length-3)}' with DuckDuckGO...`);
+			window.open(`https://duckduckgo.com/?q=${comand.slice(3,comand.length-3)}`)
+		}
+		else if (comand.slice(comand.length-2)=='-g') {
+			outputPrint(`Searching '${comand.slice(3,comand.length-3)}' with Google...`);
+			window.open(`https://www.google.com/search?q=${comand.slice(3,comand.length-3)}`)
+		}
+		else if (comand.slice(comand.length-2)=='-b') {
+			outputPrint(`Searching '${comand.slice(3,comand.length-3)}' with Bing...`);
+			window.open(`https://www.bing.com/search?q=${comand.slice(3,comand.length-3)}`)
+		}
+	}
+	else {
+		outputPrint(` 
+			El comando '${comand}' no existe. <p></p>
+			Para obtener una lista de los comandos disponibles ecriba 'help'.
+			`)
+	}
+}
 
 function outputPrint(str){
 	output.innerHTML += `~$ ${comand} <p></p>
@@ -71,21 +98,6 @@ function outputPrint(str){
 
 function outputClear(str){
 	output.innerHTML = '';
-}
-
-function checkComand(comand){
-	if (comands_list[comand]) {
-		comands_list[comand]();
-	}
-	else if (comand.includes('go')) {
-		window.open(`https://${comand.slice(3)}`);
-	}
-	else {
-		outputPrint(` 
-			El comando '${comand}' no existe. <p></p>
-			Para obtener una lista de los comandos disponibles ecriba 'help'.
-			`)
-	}
 }
 
 function Input(e){
